@@ -1,0 +1,69 @@
+[gd_scene load_steps=5 format=3 uid="uid://d2siun1rkipur"]
+
+[ext_resource type="Script" path="res://world.gd" id="1_xuk0x"]
+[ext_resource type="Script" path="res://Label.gd" id="2_eslxk"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_si1ab"]
+size = Vector3(1, 0.01, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_xggqt"]
+size = Vector2(1, 1)
+
+[node name="World" type="Node"]
+script = ExtResource("1_xuk0x")
+
+[node name="WorldUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Box" type="HBoxContainer" parent="WorldUI"]
+layout_mode = 0
+anchor_right = 1.0
+offset_bottom = 31.0
+grow_horizontal = 2
+alignment = 2
+
+[node name="Server" type="Button" parent="WorldUI/Box"]
+layout_mode = 2
+text = "Server"
+
+[node name="Client" type="Button" parent="WorldUI/Box"]
+layout_mode = 2
+text = "Client"
+
+[node name="Players" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="Players"]
+unique_name_in_owner = true
+_spawnable_scenes = PackedStringArray("res://player.tscn")
+spawn_path = NodePath("..")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("2_eslxk")
+
+[node name="floor" type="Node3D" parent="."]
+transform = Transform3D(30, 0, 0, 0, 1, 0, 0, 0, 30, 0, -2, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="floor"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor/StaticBody3D"]
+shape = SubResource("BoxShape3D_si1ab")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="floor"]
+mesh = SubResource("PlaneMesh_xggqt")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 4.27865, 8.04082)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.5, 0.836516, -0.224144, 0, 0.258819, 0.965926, 0.866025, -0.482963, 0.12941, 0, 3.56116, 0)
+
+[connection signal="pressed" from="WorldUI/Box/Server" to="." method="start_server"]
+[connection signal="pressed" from="WorldUI/Box/Client" to="." method="start_client"]
