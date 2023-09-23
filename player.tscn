@@ -49,6 +49,7 @@ script = ExtResource("3_ngkfo")
 shape = SubResource("SphereShape3D_qd1m8")
 
 [node name="TextEdit" type="TextEdit" parent="."]
+visible = false
 offset_right = 342.0
 offset_bottom = 121.0
 text = "#

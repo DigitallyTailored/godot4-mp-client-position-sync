@@ -31,9 +31,9 @@ func start_server():
 	#spawn_player(1) #you could use the server as a player too by including this line
 	
 	#some "ai" players not attached to any remote peer which we could easily control with the server
-	#spawn_player("ai-"+str(randi_range(0,99999)), true)
-	#spawn_player("ai-"+str(randi_range(0,99999)), true)
-	#spawn_player("ai-"+str(randi_range(0,99999)), true)
+	spawn_player("ai-"+str(randi_range(0,99999)), true)
+	spawn_player("ai-"+str(randi_range(0,99999)), true)
+	spawn_player("ai-"+str(randi_range(0,99999)), true)
 
 # This function starts the client
 func start_client():
