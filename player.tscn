@@ -18,7 +18,7 @@ properties/0/watch = false
 properties/1/path = NodePath(".:_position")
 properties/1/spawn = true
 properties/1/sync = true
-properties/1/watch = true
+properties/1/watch = false
 properties/2/path = NodePath(".:position")
 properties/2/spawn = true
 properties/2/sync = false
@@ -41,6 +41,8 @@ shape = SubResource("SphereShape3D_2vowh")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Area3D"]
 root_path = NodePath("../..")
+replication_interval = 0.025
+delta_interval = 0.025
 replication_config = SubResource("SceneReplicationConfig_o28fd")
 public_visibility = false
 script = ExtResource("3_ngkfo")

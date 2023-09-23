@@ -19,12 +19,9 @@ func _ready():
 	if ai:
 		speed *= 0.2
 		$MeshInstance3D.mesh = SphereMesh.new()
-		#move_timer = OS.get_ticks_msec()
 		move_timer = Time.get_ticks_msec()
 
-
 func _physics_process(delta):
-		
 	var _name = str(name)
 	var _peer_id = str(multiplayer.get_unique_id())
 	var is_player = _name == _peer_id
@@ -41,19 +38,9 @@ func _physics_process(delta):
 			move_timer = Time.get_ticks_msec()
 			
 		direction = (target - position).normalized()
-		var new_velocity = direction * speed
-		velocity.x = new_velocity.x
-		velocity.z = new_velocity.z
-		if not is_on_floor():
-			velocity.y += gravity * delta
-		else:
-			if randi() % 100 == 1:
-				velocity.y = JUMP_VELOCITY
-		move_and_slide()
-
-		if last_position != position:
-			rpc_send_position(position)
-			
+		if is_on_floor() and randi() % 100 == 1:
+			velocity.y = JUMP_VELOCITY
+		apply_movement(delta, is_player)
 		return
 	
 	#only control player on matching peer
@@ -68,27 +55,24 @@ func _physics_process(delta):
 		direction.x = Input.get_axis("move_left", "move_right")
 		direction.z = Input.get_axis("move_up", "move_down")
 		jumping = Input.is_action_just_pressed("ui_accept")
-
-		if not is_on_floor():
-			velocity.y += gravity * delta
-		
 		if is_on_floor() and jumping:
 			velocity.y = JUMP_VELOCITY
-
-		if direction:
-			var new_velocity= direction * speed
-			new_velocity.y = velocity.y
-			velocity = new_velocity
-		else:
-			velocity.x = move_toward(velocity.x, 0, speed)
-			velocity.z = move_toward(velocity.z, 0, speed)
-
-		move_and_slide()
-			
-		if last_position != position:
-			rpc_send_position.rpc_id(1, position)
-		
+		apply_movement(delta, is_player)
 		return
+
+func apply_movement(delta, is_player):
+	var new_velocity = direction * speed
+	velocity.x = new_velocity.x
+	velocity.z = new_velocity.z
+	if not is_on_floor():
+		velocity.y += gravity * delta
+	move_and_slide()
+
+	if last_position != position:
+		if is_player:
+			rpc_send_position.rpc_id(1, position)
+		else:
+			rpc_send_position(position)
 
 @rpc("any_peer", "call_remote")
 func rpc_send_position(rpc_position):
