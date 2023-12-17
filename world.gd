@@ -31,9 +31,8 @@ func start_server():
 	#spawn_player(1) #you could use the server as a player too by including this line
 	
 	#some "ai" players not attached to any remote peer which we could easily control with the server
-	spawn_player("ai-"+str(randi_range(0,99999)), true)
-	spawn_player("ai-"+str(randi_range(0,99999)), true)
-	spawn_player("ai-"+str(randi_range(0,99999)), true)
+	for n in 9:
+		spawn_player("ai-"+str(randi_range(0,99999)), true)
 
 # This function starts the client
 func start_client():
@@ -54,7 +53,7 @@ func spawn_player(id, is_ai = false):
 		return
 	# Instantiating a new player scene
 	var p = preload("res://player.tscn").instantiate()
-	p.position = Vector3(randf_range(-5,5),3,0)
+	p.position = Vector3(randf_range(-5,5),randf_range(0,5),randf_range(-5,5))
 	# Setting the player's name to its ID
 	p.name = str(id)
 	p.ai = is_ai

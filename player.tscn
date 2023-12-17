@@ -13,18 +13,15 @@
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_o28fd"]
 properties/0/path = NodePath(".:ai")
 properties/0/spawn = true
-properties/0/sync = false
-properties/0/watch = false
+properties/0/replication_mode = 0
 properties/1/path = NodePath(".:_position")
 properties/1/spawn = true
-properties/1/sync = true
-properties/1/watch = false
+properties/1/replication_mode = 1
 properties/2/path = NodePath(".:position")
 properties/2/spawn = true
-properties/2/sync = false
-properties/2/watch = false
+properties/2/replication_mode = 0
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_qd1m8"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_63sv3"]
 radius = 5.0
 
 [node name="Player" type="CharacterBody3D"]
@@ -41,14 +38,14 @@ shape = SubResource("SphereShape3D_2vowh")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Area3D"]
 root_path = NodePath("../..")
-replication_interval = 0.025
-delta_interval = 0.025
+replication_interval = 0.01
+delta_interval = 0.01
 replication_config = SubResource("SceneReplicationConfig_o28fd")
 public_visibility = false
 script = ExtResource("3_ngkfo")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-shape = SubResource("SphereShape3D_qd1m8")
+shape = SubResource("SphereShape3D_63sv3")
 
 [node name="TextEdit" type="TextEdit" parent="."]
 visible = false
