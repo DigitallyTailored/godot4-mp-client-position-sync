@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3 uid="uid://xymvouxq3qgo"]
+
+[ext_resource type="Script" path="res://entity.gd" id="1_6rqcl"]
+[ext_resource type="Script" path="res://visibility_sync.gd" id="2_gtwhm"]
+[ext_resource type="Script" path="res://helper/TextEdit.gd" id="3_ebrcn"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_o28fd"]
+properties/0/path = NodePath(".:ai")
+properties/0/spawn = true
+properties/0/replication_mode = 0
+properties/1/path = NodePath(".:_position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:position")
+properties/2/spawn = true
+properties/2/replication_mode = 0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_qd1m8"]
+radius = 5.0
+
+[node name="Entity" type="Node3D"]
+script = ExtResource("1_6rqcl")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Area3D"]
+root_path = NodePath("../..")
+replication_interval = 0.025
+delta_interval = 0.025
+replication_config = SubResource("SceneReplicationConfig_o28fd")
+public_visibility = false
+script = ExtResource("2_gtwhm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_qd1m8")
+
+[node name="TextEdit" type="TextEdit" parent="."]
+visible = false
+offset_right = 342.0
+offset_bottom = 121.0
+text = "#
+#
+#
+#"
+editable = false
+selecting_enabled = false
+script = ExtResource("3_ebrcn")
+
+[connection signal="body_entered" from="Area3D" to="Area3D/MultiplayerSynchronizer" method="_on_area_body_entered"]
+[connection signal="body_exited" from="Area3D" to="Area3D/MultiplayerSynchronizer" method="_on_area_body_exited"]

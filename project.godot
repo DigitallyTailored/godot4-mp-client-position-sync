@@ -10,6 +10,7 @@ config_version=5
 
 [application]
 
+config/name="multiplayer"
 run/main_scene="res://world.tscn"
 config/features=PackedStringArray("4.2")
 
