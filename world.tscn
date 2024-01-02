@@ -1,8 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://d2siun1rkipur"]
+[gd_scene load_steps=4 format=3 uid="uid://d2siun1rkipur"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_xuk0x"]
-[ext_resource type="Script" path="res://Label.gd" id="2_eslxk"]
-[ext_resource type="Script" path="res://LabelPeerCount.gd" id="2_nkoqp"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_si1ab"]
 size = Vector3(1, 0.01, 1)
@@ -43,19 +41,6 @@ spawn_path = NodePath("../Players")
 
 [node name="Players" type="Node" parent="."]
 unique_name_in_owner = true
-
-[node name="Label" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0
-script = ExtResource("2_eslxk")
-
-[node name="Label2" type="Label" parent="."]
-offset_left = 1.0
-offset_top = 26.0
-offset_right = 74.0
-offset_bottom = 52.0
-text = "#######"
-script = ExtResource("2_nkoqp")
 
 [node name="floor" type="Node3D" parent="."]
 transform = Transform3D(30, 0, 0, 0, 1, 0, 0, 0, 30, 0, -2, 0)

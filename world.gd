@@ -2,7 +2,6 @@
 extends Node
 
 # Preloading the player scene to be instantiated later
-const Player = preload("res://player.tscn")
 
 # Defining the port and host for the multiplayer server
 const PORT = 4343

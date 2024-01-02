@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://xymvouxq3qgo"]
+[gd_scene load_steps=8 format=3 uid="uid://xymvouxq3qgo"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_0gy7u"]
-[ext_resource type="Script" path="res://TextEdit.gd" id="3_7jpd3"]
-[ext_resource type="Script" path="res://visibility_sync_2d.gd" id="3_ngkfo"]
+[ext_resource type="Script" path="res://visibility_sync.gd" id="2_5v0cn"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_v6jhe"]
 
@@ -42,22 +41,10 @@ replication_interval = 0.025
 delta_interval = 0.025
 replication_config = SubResource("SceneReplicationConfig_o28fd")
 public_visibility = false
-script = ExtResource("3_ngkfo")
+script = ExtResource("2_5v0cn")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("SphereShape3D_qd1m8")
 
-[node name="TextEdit" type="TextEdit" parent="."]
-visible = false
-offset_right = 342.0
-offset_bottom = 121.0
-text = "#
-#
-#
-#"
-editable = false
-selecting_enabled = false
-script = ExtResource("3_7jpd3")
-
-[connection signal="body_entered" from="Area3D" to="Area3D/MultiplayerSynchronizer" method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="Area3D" to="Area3D/MultiplayerSynchronizer" method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="Area3D" to="Area3D/MultiplayerSynchronizer" method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="Area3D/MultiplayerSynchronizer" method="_on_area_3d_body_exited"]

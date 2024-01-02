@@ -26,10 +26,6 @@ func _physics_process(delta):
 	var _peer_id = str(multiplayer.get_unique_id())
 	var is_self = _name == _peer_id
 	
-	$TextEdit.out('name', _name)
-	$TextEdit.out('is_self', str(is_self))
-	$TextEdit.out('position', str(position))
-	$TextEdit.out('_position', str(_position))
 	
 	if ai and multiplayer.is_server():
 		#add logic here to move peer towards target until either within range or 5 seconds has gone by, in which case, change target
