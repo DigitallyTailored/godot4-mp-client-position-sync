@@ -49,7 +49,7 @@ func start_client():
 	DisplayServer.window_set_title("client - " + str(multiplayer.get_unique_id()))
 
 # This function spawns a player with a given ID
-func spawn_player(id, is_ai = false):
+func spawn_player(id, _is_ai = false):
 	if not is_multiplayer_authority():
 		return
 	# Instantiating a new player scene
@@ -57,7 +57,7 @@ func spawn_player(id, is_ai = false):
 	p.position = Vector3(randf_range(-5,5),3,0)
 	# Setting the player's name to its ID
 	p.name = str(id)
-	p.ai = is_ai
+	p.ai = _is_ai
 	# Adding the player as a child of the Players node
 	%Players.add_child(p, true)
 	

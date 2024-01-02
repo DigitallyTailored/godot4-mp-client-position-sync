@@ -24,10 +24,10 @@ func _ready():
 func _physics_process(delta):
 	var _name = str(name)
 	var _peer_id = str(multiplayer.get_unique_id())
-	var is_player = _name == _peer_id
+	var is_self = _name == _peer_id
 	
 	$TextEdit.out('name', _name)
-	$TextEdit.out('is_player', str(is_player))
+	$TextEdit.out('is_self', str(is_self))
 	$TextEdit.out('position', str(position))
 	$TextEdit.out('_position', str(_position))
 	
@@ -40,16 +40,16 @@ func _physics_process(delta):
 		direction = (target - position).normalized()
 		if is_on_floor() and randi() % 100 == 1:
 			velocity.y = JUMP_VELOCITY
-		apply_movement(delta, is_player)
+		apply_movement(delta, is_self)
 		return
 	
 	#only control player on matching peer
-	if not is_player:
+	if not is_self:
 		#set position of this external peer to the last received _position
 		position = _position
 		return
 	
-	if is_player:
+	if is_self:
 		#to get this far we must be the local player in control of the peer
 		#control player on matching peer
 		direction.x = Input.get_axis("move_left", "move_right")
@@ -57,10 +57,10 @@ func _physics_process(delta):
 		jumping = Input.is_action_just_pressed("ui_accept")
 		if is_on_floor() and jumping:
 			velocity.y = JUMP_VELOCITY
-		apply_movement(delta, is_player)
+		apply_movement(delta, is_self)
 		return
 
-func apply_movement(delta, is_player):
+func apply_movement(delta, is_self):
 	var new_velocity = direction * speed
 	velocity.x = new_velocity.x
 	velocity.z = new_velocity.z
@@ -69,7 +69,7 @@ func apply_movement(delta, is_player):
 	move_and_slide()
 
 	if last_position != position:
-		if is_player:
+		if is_self:
 			rpc_send_position.rpc_id(1, position)
 		else:
 			rpc_send_position(position)
