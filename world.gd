@@ -1,75 +1,85 @@
-# This script extends the Node class in Godot
 extends Node
 
-# Preloading the player scene to be instantiated later
-
-# Defining the port and host for the multiplayer server
+# Defines the port and host for the multiplayer server
 const PORT = 4343
 const HOST = "127.0.0.1"
 
-# Creating a new instance of the ENetMultiplayerPeer class
+# Creates a new instance of the ENetMultiplayerPeer class for network communication
 var peer := ENetMultiplayerPeer.new()
 
-# This function is called when the node enters the scene tree
+# Called when the node enters the scene tree, sets up signal connections
 func _enter_tree():
-	# Connecting the signals for when a peer connects or disconnects
 	multiplayer.peer_connected.connect(spawn_player)
 	multiplayer.peer_disconnected.connect(despawn_player)
 	
-# This function starts the server
+	#var scenes = get_scenes("res://entities/")
+	#print(scenes)
+	#for scene in scenes:
+	#	%EntitySpawner.add_spawnable_scene(scene)
+	
+func get_scenes(path):
+	var scenes = []
+	var dir = DirAccess.open(path)
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if dir.current_is_dir():
+				scenes.append_array(get_scenes(path+'/'+file_name))
+			else:
+				if file_name.ends_with(".tscn"):
+					scenes.append(dir.get_current_dir(false)+'/' +file_name)
+			file_name = dir.get_next()
+	return scenes
+
+# Starts a server, sets up the environment, and spawns AI players
 func start_server():
-	# Hiding the WorldUI node
 	$WorldUI.hide()
-	# Setting the window title to "server"
-	# Creating a server with the specified port
 	peer.create_server(PORT)
-	# Setting the multiplayer peer for the current multiplayer API
 	multiplayer.multiplayer_peer = peer
 	DisplayServer.window_set_title("server - " + str(multiplayer.get_unique_id()))
-	#optional: Adding the server as a peer with ID 1
-	#spawn_player(1) #you could use the server as a player too by including this line
 	
-	#some "ai" players not attached to any remote peer which we could easily control with the server
-	spawn_player("ai-"+str(randi_range(0,99999)), true)
-	spawn_player("ai-"+str(randi_range(0,99999)), true)
-	spawn_player("ai-"+str(randi_range(0,99999)), true)
+	spawn_entity("res://entities/tree.tscn", 'test'+str(randi_range(0,99999)))
+	spawn_entity("res://entities/tree.tscn", 'test'+str(randi_range(0,99999)))
+	spawn_entity("res://entities/tree.tscn", 'test'+str(randi_range(0,99999)))
+	spawn_entity("res://entities/rock.tscn", 'test'+str(randi_range(0,99999)))
+	spawn_entity("res://entities/rock.tscn", 'test'+str(randi_range(0,99999)))
+	spawn_entity("res://entities/rock.tscn", 'test'+str(randi_range(0,99999)))
+	spawn_entity("res://entities/rock.tscn", 'test'+str(randi_range(0,99999)))
+	spawn_entity("res://entities/bird.tscn", 'test'+str(randi_range(0,99999)))
+	spawn_entity("res://entities/bird.tscn", 'test'+str(randi_range(0,99999)))
+	spawn_entity("res://entities/bird.tscn", 'test'+str(randi_range(0,99999)))
 
-# This function starts the client
+
+# Starts a client, sets up the environment, and connects to the server
 func start_client():
-	# Hiding the WorldUI node
 	$WorldUI.hide()
-	# Setting the window title to "client"
 	DisplayServer.window_set_title("client")
-	# Creating a client that will connect to the specified host and port
 	peer.create_client(HOST, PORT)
-	# Setting the multiplayer peer for the current multiplayer API
 	multiplayer.multiplayer_peer = peer
-	
 	DisplayServer.window_set_title("client - " + str(multiplayer.get_unique_id()))
 
-# This function spawns a player with a given ID
-func spawn_player(id, _is_ai = false):
-	if not is_multiplayer_authority():
-		return
-	# Instantiating a new player scene
-	var p = preload("res://player.tscn").instantiate()
-	p.position = Vector3(randf_range(-5,5),3,0)
-	# Setting the player's name to its ID
-	p.name = str(id)
-	p.ai = _is_ai
-	# Adding the player as a child of the Players node
-	%Players.add_child(p, true)
+func spawn_player(id):
+	spawn_entity("res://entities/character.tscn", id)
 	
-
-# This function despawns a player with a given ID
-func despawn_player(id):
-	# Looping over all children of the Players node.
+# Spawns a player with a given ID and optionally marks it as AI
+func spawn_entity(scene, id):
 	if not is_multiplayer_authority():
 		return
-	for p in %Players.get_children():
-		# Checking if the current child's name matches the ID
+	var scene_wrap = load("res://multiplayer/SceneWrap.tscn").instantiate()
+	scene_wrap.name = str(id)
+	scene_wrap.scene = scene
+	scene_wrap._position = Vector3(randf_range(-5,5),0,randf_range(-5,5))
+	$Entities.add_child(scene_wrap, true)
+	
+# Despawns a player with a given ID by removing it from the players node
+func despawn_player(id):
+	despawn_entity(id)
+	
+func despawn_entity(id):
+	if not is_multiplayer_authority():
+		return
+	for p in $Entities.get_children():
 		if p.name == str(id):
-			# Deleting the player node
 			p.queue_free()
-			# Exiting the loop as the player has been found and deleted
 			break

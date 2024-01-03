@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://cq0t3sgrb2n13"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j2lba"]
+size = Vector3(1, 0.789795, 1.59821)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_6n5mm"]
+radial_segments = 4
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k6juk"]
+albedo_color = Color(0.419608, 0.419608, 0.419608, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7d5b6"]
+albedo_color = Color(0.419608, 0.419608, 0.419608, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ohpcx"]
+albedo_color = Color(0.419608, 0.419608, 0.419608, 1)
+
+[node name="Rock" type="Node3D"]
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.313836, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+transform = Transform3D(0.952161, 0, 0.305596, 0, 1, 0, -0.305596, 0, 0.952161, -0.0110887, -0.0252686, -0.0345496)
+shape = SubResource("BoxShape3D_j2lba")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -0.866025, -3.78552e-08, 0.5, 0.5, 2.18557e-08, 0.866025, 0.0817028, 0.313836, 0.305277)
+mesh = SubResource("CapsuleMesh_6n5mm")
+surface_material_override/0 = SubResource("StandardMaterial3D_k6juk")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.69065, 0.25, -0.678603, -0.711516, -0.0669873, 0.699469, 0.12941, 0.965926, 0.224144, -0.248935, 0.313836, 0.00780815)
+mesh = SubResource("CapsuleMesh_6n5mm")
+surface_material_override/0 = SubResource("StandardMaterial3D_7d5b6")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.537687, -0.692758, 0.480603, -0.785804, -0.205122, 0.583469, -0.305621, -0.691384, -0.654663, 0.180139, 0.340386, -0.261247)
+mesh = SubResource("CapsuleMesh_6n5mm")
+surface_material_override/0 = SubResource("StandardMaterial3D_ohpcx")

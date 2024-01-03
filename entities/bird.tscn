@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://r6fjyeino2od"]
+
+[ext_resource type="Script" path="res://entities/bird.gd" id="1_fxmja"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_rymao"]
+radial_segments = 4
+rings = 1
+
+[node name="Bird" type="Node3D"]
+script = ExtResource("1_fxmja")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.91069e-16, 8.74228e-09, 0.2, 0.1, -8.74228e-09, 0, 4.37114e-09, 0.2, -8.74228e-09, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_rymao")

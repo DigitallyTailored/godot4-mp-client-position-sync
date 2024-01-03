@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://d2siun1rkipur"]
+[gd_scene load_steps=5 format=3 uid="uid://d2siun1rkipur"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_xuk0x"]
 
@@ -7,6 +7,9 @@ size = Vector3(1, 0.01, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_xggqt"]
 size = Vector2(1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u7f1f"]
+albedo_color = Color(0, 0.298039, 0, 1)
 
 [node name="World" type="Node"]
 script = ExtResource("1_xuk0x")
@@ -34,16 +37,15 @@ text = "Server"
 layout_mode = 2
 text = "Client"
 
-[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
+[node name="EntitySpawner" type="MultiplayerSpawner" parent="."]
 unique_name_in_owner = true
-_spawnable_scenes = PackedStringArray("res://player.tscn")
-spawn_path = NodePath("../Players")
+_spawnable_scenes = PackedStringArray("res://multiplayer/SceneWrap.tscn")
+spawn_path = NodePath("../Entities")
 
-[node name="Players" type="Node" parent="."]
-unique_name_in_owner = true
+[node name="Entities" type="Node" parent="."]
 
 [node name="floor" type="Node3D" parent="."]
-transform = Transform3D(30, 0, 0, 0, 1, 0, 0, 0, 30, 0, -2, 0)
+transform = Transform3D(30, 0, 0, 0, 1, 0, 0, 0, 30, 0, 0, 0)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="floor"]
 
@@ -52,6 +54,7 @@ shape = SubResource("BoxShape3D_si1ab")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="floor"]
 mesh = SubResource("PlaneMesh_xggqt")
+surface_material_override/0 = SubResource("StandardMaterial3D_u7f1f")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 4.27865, 8.04082)
