@@ -1,0 +1,78 @@
+[gd_scene load_steps=10 format=3 uid="uid://bjn0eiu4hran4"]
+
+[ext_resource type="Texture2D" uid="uid://g31ukggcso37" path="res://materials/concrete/Concrete030_4K_NormalGL.jpg" id="1_hqnle"]
+[ext_resource type="Texture2D" uid="uid://ky0xofabijwr" path="res://materials/particles/star_08.png" id="2_dkom7"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_0tclg"]
+bounce = 0.6
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3qlbe"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_hm1j2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kujve"]
+diffuse_mode = 3
+albedo_color = Color(1, 0.298039, 0.0156863, 1)
+metallic = 1.0
+roughness = 0.65
+normal_enabled = true
+normal_scale = 6.86
+normal_texture = ExtResource("1_hqnle")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+uv1_triplanar_sharpness = 40.786
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ar54b"]
+emission_shape = 1
+emission_sphere_radius = 0.5
+gravity = Vector3(0, 1, 0)
+radial_accel_min = -1.0
+radial_accel_max = 1.0
+attractor_interaction_enabled = false
+turbulence_noise_strength = 20.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6yfjs"]
+transparency = 2
+alpha_scissor_threshold = 0.138
+alpha_antialiasing_mode = 0
+blend_mode = 1
+shading_mode = 0
+albedo_color = Color(0.745098, 0.376471, 0, 1)
+albedo_texture = ExtResource("2_dkom7")
+disable_receive_shadows = true
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_43r1q"]
+material = SubResource("StandardMaterial3D_6yfjs")
+size = Vector2(0.2, 0.2)
+
+[node name="RigidBody3D" type="RigidBody3D"]
+collision_layer = 2
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_0tclg")
+angular_damp = 2.5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_3qlbe")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+mesh = SubResource("BoxMesh_hm1j2")
+skeleton = NodePath("../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_kujve")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="CollisionShape3D"]
+amount = 100
+lifetime = 3.0
+fixed_fps = 20
+visibility_aabb = AABB(-3, -3, -3, 6, 6, 6)
+process_material = SubResource("ParticleProcessMaterial_ar54b")
+draw_pass_1 = SubResource("QuadMesh_43r1q")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+light_color = Color(1, 0.376471, 0.0196078, 1)
+omni_range = 2.70159

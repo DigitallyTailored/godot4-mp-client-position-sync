@@ -13,6 +13,7 @@ func _ready():
 	var multiplayer_synchronizer :MultiplayerSynchronizer= MultiplayerSynchronizer.new()
 	target.add_child(multiplayer_synchronizer)
 	var config = SceneReplicationConfig.new()
+	
 	add_child(target)
 
 	#if target has key property starting with underscore, sync that instead - these are used as client overrides or for interpolation

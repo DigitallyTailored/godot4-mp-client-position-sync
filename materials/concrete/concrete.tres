@@ -1,0 +1,15 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://csdqglw025k1c"]
+
+[ext_resource type="Texture2D" uid="uid://b62j1nltlbrua" path="res://materials/concrete/Concrete030_4K_Color.jpg" id="1_j1m87"]
+[ext_resource type="Texture2D" uid="uid://g31ukggcso37" path="res://materials/concrete/Concrete030_4K_NormalGL.jpg" id="2_xoqep"]
+
+[resource]
+albedo_texture = ExtResource("1_j1m87")
+roughness = 0.62
+normal_enabled = true
+normal_scale = 2.25
+normal_texture = ExtResource("2_xoqep")
+uv1_triplanar = true
+uv1_triplanar_sharpness = 5.3845
+uv1_world_triplanar = true
+texture_filter = 5

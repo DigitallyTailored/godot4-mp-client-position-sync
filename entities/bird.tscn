@@ -1,14 +1,26 @@
-[gd_scene load_steps=3 format=3 uid="uid://r6fjyeino2od"]
+[gd_scene load_steps=5 format=3 uid="uid://r6fjyeino2od"]
 
 [ext_resource type="Script" path="res://entities/bird.gd" id="1_fxmja"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_rymao"]
-radial_segments = 4
-rings = 1
+[sub_resource type="SphereShape3D" id="SphereShape3D_xpgwp"]
+radius = 0.01
 
-[node name="Bird" type="Node3D"]
+[sub_resource type="SphereMesh" id="SphereMesh_1ri0w"]
+radial_segments = 6
+rings = 3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yrpru"]
+metallic = 1.0
+roughness = 0.0
+
+[node name="Bird" type="CharacterBody3D"]
 script = ExtResource("1_fxmja")
 
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_xpgwp")
+disabled = true
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.91069e-16, 8.74228e-09, 0.2, 0.1, -8.74228e-09, 0, 4.37114e-09, 0.2, -8.74228e-09, 0, 0, 0)
-mesh = SubResource("CapsuleMesh_rymao")
+transform = Transform3D(1.91069e-16, 4.37114e-09, 0.1, 0.1, -4.37114e-09, 1.32349e-23, 4.37114e-09, 0.1, -4.37114e-09, 0, 0, 0)
+mesh = SubResource("SphereMesh_1ri0w")
+surface_material_override/0 = SubResource("StandardMaterial3D_yrpru")

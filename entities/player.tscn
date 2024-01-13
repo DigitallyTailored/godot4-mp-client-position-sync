@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://p0g120vaw3kd"]
+
+[ext_resource type="Script" path="res://entities/player.gd" id="1_i34w8"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7bto5"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_l0b1b"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_momnr"]
+
+[node name="Player" type="CharacterBody3D"]
+floor_max_angle = 1.0472
+script = ExtResource("1_i34w8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_7bto5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_l0b1b")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.675694, -0.310727)
+mesh = SubResource("BoxMesh_momnr")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.73168, 0)
+fov = 90.0
+near = 0.01

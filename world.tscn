@@ -1,6 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://d2siun1rkipur"]
+[gd_scene load_steps=8 format=3 uid="uid://d2siun1rkipur"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_xuk0x"]
+[ext_resource type="Material" uid="uid://bo86dsdy8ky8l" path="res://materials/grass/grass.material" id="2_qmk2o"]
+[ext_resource type="PackedScene" path="res://directional_light_3d.tscn" id="3_bqqvn"]
+[ext_resource type="PackedScene" path="res://world_environment.tscn" id="4_aof5w"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_si1ab"]
 size = Vector3(1, 0.01, 1)
@@ -53,14 +56,19 @@ transform = Transform3D(30, 0, 0, 0, 1, 0, 0, 0, 30, 0, 0, 0)
 shape = SubResource("BoxShape3D_si1ab")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="floor"]
+material_override = ExtResource("2_qmk2o")
 mesh = SubResource("PlaneMesh_xggqt")
 surface_material_override/0 = SubResource("StandardMaterial3D_u7f1f")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 4.27865, 8.04082)
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 14.507, 21.639, 14.989)
+projection = 1
+size = 18.06
+near = 0.001
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.5, 0.836516, -0.224144, 0, 0.258819, 0.965926, 0.866025, -0.482963, 0.12941, 0, 3.56116, 0)
+[node name="DirectionalLight3D2" parent="." instance=ExtResource("3_bqqvn")]
+
+[node name="WorldEnvironment" parent="." instance=ExtResource("4_aof5w")]
 
 [connection signal="pressed" from="WorldUI/Box/Server" to="." method="start_server"]
 [connection signal="pressed" from="WorldUI/Box/Client" to="." method="start_client"]
